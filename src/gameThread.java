@@ -26,25 +26,22 @@ public class gameThread extends Thread {
 
             System.out.println("CODE : " + code);
 
-            String result = "    ";
+            out.println("GO");
+
+            String result = "";
             int counter = 0;
             String guess;
 
             while (!result.equals("BBBB") && counter < 20) {
-                if (counter == 0) {
-                    out.println("GO");
-                    counter++;
-                } else {
-                    guess = in.readLine();
+                guess = in.readLine();
 
-                    if (guess.equals("QUIT")) {
-                        break;
-                    }
-
-                    result = processGuess(guess);
-                    counter++;
-                    out.println(result);
+                if (guess == null || guess.equals("QUIT")) {
+                    break;
                 }
+
+                result = processGuess(guess);
+                out.println(result);
+                counter++;
             }
 
             out.close();
@@ -64,6 +61,7 @@ public class gameThread extends Thread {
         char[] guessChars = guess.toCharArray();
         boolean[] codeMatched = new boolean[4];
         boolean[] guessMatched = new boolean[4];
+
 
         for (int i = 0; i < 4; i++) {
             if (guessChars[i] == codeChars[i]) {
@@ -87,12 +85,12 @@ public class gameThread extends Thread {
 
         StringBuilder result = new StringBuilder();
 
-        for (int i = 0; i < cows; i++) {
-            result.append("C");
-        }
-
         for (int i = 0; i < bulls; i++) {
             result.append("B");
+        }
+
+        for (int i = 0; i < cows; i++) {
+            result.append("C");
         }
 
         while (result.length() < 4) {

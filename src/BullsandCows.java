@@ -17,27 +17,20 @@ public class BullsandCows {
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            while (counter < 20 && !guessString.equals("QUIT")) {
-                String serverResponse = in.readLine();
+            String serverResponse = in.readLine();
+            if (serverResponse.equals("GO")) {
+                System.out.println("Welcome to Bulls and Cows. You will try to guess a 4 digit code using");
+                System.out.println("only the digits 0-9). You will lose the game if you are unable to guess");
+                System.out.println("the code correctly in 20 guesses. Good Luck!\n");
+            }
 
-                if (serverResponse.equals("GO")) {
-                    System.out.println("Welcome to Bulls and Cows. You will try to guess a 4 digit code using");
-                    System.out.println("only the digits 0-9). You will lose the game if you are unable to guess");
-                    System.out.println("the code correctly in 20 guesses. Good Luck!");
-                } else if (serverResponse.equals("BBBB")) {
-                    System.out.println(guessString + " " + serverResponse);
-                    System.out.println("Congratulations!!! You guessed the code correctly in " + counter + " guesses");
-                    break;
-                } else {
-                    System.out.println(guessString + " " + serverResponse);
-                }
-
+            while (counter < 20) {
                 do {
                     System.out.print("Please enter your guess for the secret code or \"QUIT\" : ");
                     guessString = scanner.nextLine();
 
                     if (guessString.equals("QUIT")) {
-                        System.out.println("Goodbye but please play again!");
+                        System.out.println("\nGoodbye but please play again!");
                         out.println("QUIT");
                         return;
                     }
@@ -45,10 +38,18 @@ public class BullsandCows {
 
                 out.println(guessString);
                 counter++;
-            }
 
-            if (counter >= 20 && !guessString.equals("QUIT")) {
-                System.out.println("Sorry -- the game is over. You did not guess the code correctly in 20 moves.");
+                serverResponse = in.readLine();
+                System.out.println(guessString + " " + serverResponse);
+
+                if (serverResponse.equals("BBBB")) {
+                    System.out.println("\nCongratulations!!! You guessed the code correctly in " + counter + " guesses");
+                    break;
+                }
+
+                if (counter >= 20) {
+                    System.out.println("Sorry - the game is over. You did not guess the code correctly in 20 moves.");
+                }
             }
 
             out.close();
