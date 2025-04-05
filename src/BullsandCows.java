@@ -29,7 +29,7 @@ public class BullsandCows {
         PrintWriter out;
         BufferedReader in;
         int counter = 0;
-        String guessString = "";
+        String guessString;
         Scanner scanner = new Scanner(System.in);
 
         try {
