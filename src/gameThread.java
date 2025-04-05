@@ -3,13 +3,59 @@ import java.net.*;
 import java.util.Random;
 
 public class gameThread extends Thread {
-    private Socket socket = null;
-    private PrintWriter out = null;
-    private BufferedReader in = null;
+    private Socket socket;
+    private PrintWriter out;
+    private BufferedReader in;
     private String code = "";
 
     public gameThread(Socket socket) {
         this.socket = socket;
+    }
+
+    String processGuess(String guess) {
+        int bulls = 0;
+        int cows = 0;
+
+        char[] codeChars = code.toCharArray();
+        char[] guessChars = guess.toCharArray();
+        boolean[] codeMatched = new boolean[4];
+        boolean[] guessMatched = new boolean[4];
+
+        for (int i = 0; i < 4; i++) {
+            if (guessChars[i] == codeChars[i]) {
+                bulls++;
+                codeMatched[i] = true;
+                guessMatched[i] = true;
+            }
+        }
+
+        for (int i = 0; i < 4; i++) {
+            if (!guessMatched[i]) {
+                for (int j = 0; j < 4; j++) {
+                    if (!codeMatched[j] && guessChars[i] == codeChars[j]) {
+                        cows++;
+                        codeMatched[j] = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < cows; i++) {
+            result.append("C");
+        }
+
+        for (int i = 0; i < bulls; i++) {
+            result.append("B");
+        }
+
+        while (result.length() < 4) {
+            result.append(" ");
+        }
+
+        return result.toString();
     }
 
     public void run() {
@@ -53,50 +99,4 @@ public class gameThread extends Thread {
         }
     }
 
-    String processGuess(String guess) {
-        int bulls = 0;
-        int cows = 0;
-
-        char[] codeChars = code.toCharArray();
-        char[] guessChars = guess.toCharArray();
-        boolean[] codeMatched = new boolean[4];
-        boolean[] guessMatched = new boolean[4];
-
-
-        for (int i = 0; i < 4; i++) {
-            if (guessChars[i] == codeChars[i]) {
-                bulls++;
-                codeMatched[i] = true;
-                guessMatched[i] = true;
-            }
-        }
-
-        for (int i = 0; i < 4; i++) {
-            if (!guessMatched[i]) {
-                for (int j = 0; j < 4; j++) {
-                    if (!codeMatched[j] && guessChars[i] == codeChars[j]) {
-                        cows++;
-                        codeMatched[j] = true;
-                        break;
-                    }
-                }
-            }
-        }
-
-        StringBuilder result = new StringBuilder();
-
-        for (int i = 0; i < bulls; i++) {
-            result.append("B");
-        }
-
-        for (int i = 0; i < cows; i++) {
-            result.append("C");
-        }
-
-        while (result.length() < 4) {
-            result.append(" ");
-        }
-
-        return result.toString();
-    }
 }

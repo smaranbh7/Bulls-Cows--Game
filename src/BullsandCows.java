@@ -3,10 +3,31 @@ import java.net.*;
 import java.util.Scanner;
 
 public class BullsandCows {
+
+    static boolean verifyInput(String gs) {
+        if (gs.equals("QUIT")) {
+            return true;
+        }
+
+        if (gs.length() != 4) {
+            System.out.println("Improperly formatted guess.");
+            return false;
+        }
+
+        for (int i = 0; i < 4; i++) {
+            if (!Character.isDigit(gs.charAt(i))) {
+                System.out.println("Improperly formatted guess.");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static void main(String[] args) {
-        Socket socket = null;
-        PrintWriter out = null;
-        BufferedReader in = null;
+        Socket socket;
+        PrintWriter out;
+        BufferedReader in;
         int counter = 0;
         String guessString = "";
         Scanner scanner = new Scanner(System.in);
@@ -43,12 +64,13 @@ public class BullsandCows {
                 System.out.println(guessString + " " + serverResponse);
 
                 if (serverResponse.equals("BBBB")) {
-                    System.out.println("\nCongratulations!!! You guessed the code correctly in " + counter + " guesses");
+                    System.out
+                            .println("\nCongratulations!!! You guessed the code correctly in " + counter + " guesses");
                     break;
                 }
 
                 if (counter >= 20) {
-                    System.out.println("Sorry - the game is over. You did not guess the code correctly in 20 moves.");
+                    System.out.println("\nSorry-the game is over. You did not guess the code correctly in 20 moves.");
                 }
             }
 
@@ -66,23 +88,4 @@ public class BullsandCows {
         }
     }
 
-    static boolean verifyInput(String gs) {
-        if (gs.equals("QUIT")) {
-            return true;
-        }
-
-        if (gs.length() != 4) {
-            System.out.println("Improperly formatted guess.");
-            return false;
-        }
-
-        for (int i = 0; i < 4; i++) {
-            if (!Character.isDigit(gs.charAt(i))) {
-                System.out.println("Improperly formatted guess.");
-                return false;
-            }
-        }
-
-        return true;
-    }
 }

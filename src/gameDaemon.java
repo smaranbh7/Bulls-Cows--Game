@@ -3,12 +3,11 @@ import java.net.*;
 
 public class gameDaemon {
     public static void main(String[] args) {
-        ServerSocket serverSocket = null;
-        Socket clientSocket = null;
+        ServerSocket serverSocket;
+        Socket clientSocket;
 
         try {
             serverSocket = new ServerSocket(12345);
-            System.out.println("Server started. Waiting for connections...");
 
             while (true) {
                 clientSocket = serverSocket.accept();
