@@ -30,5 +30,5 @@ A classic logic-based number guessing game implemented in Java. The objective is
 
 ### Prerequisites
 
-Make sure you have Java installed (or your language's compiler).
+Make sure you have Java installed 
 
